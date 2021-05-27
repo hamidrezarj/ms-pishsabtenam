@@ -1,0 +1,25 @@
+<page background="" toolbarcolor="#225ab4" statusbarcolor="#3e7ada" title="پرداخت‌ها" scrollable="false">
+    <frame scrollable="true" layout="linear_vertical" height="match_parent">
+        <image margin="10" width="240" src="http://files.appsan.ir/azad_rah_image/cover.png"></image>
+        <text margin="20" textsize="15" gravity="center" textcolor="#ab2121">شما تاکنون هیچ پرداخت عوارضی نداشته‌اید</text>
+        <!--<text margin="20"  textsize="15" gravity="rigth" textcolor="#fff">برای استفاده از خدمات پرداخت عوارضی آزادراه‌ها ابتدا مشخصات خودروی خود را ثبت کنید.</text>-->
+        <!--<button margin_left="90" margin_right="90" textcolor="#fff" textsize="15" background="#006600">افزودن پلاک جدید</button>-->
+    </frame>
+    <footer background="#225ab4">
+        <frame layout="linear_vertical" background="#225ab4" margin_left="-1" margin_right="-1">
+            <divider color="#fff" size="2" />
+            <frame layout="linear_horizontal">
+                <frame textcolor="#fff" background="" onClick="command/seepelaks">
+                    <text textsize="12" gravity="center" textcolor="#fff">پرداخت عوارض</text>
+                </frame>
+                <frame textcolor="#fff" background="" onClick="command/pardakhts">
+                    <text textsize="12" gravity="center" textcolor="#fff">پرداخت‌های من</text>
+                </frame>
+                <frame textcolor="#fff" background="" onClick="command/rahnama">
+                    <text textsize="12" gravity="center" textcolor="#fff">راهنما</text>
+                </frame>
+            </frame>
+            <divider color="#fff" size="2" />
+        </frame>
+    </footer>
+</page>

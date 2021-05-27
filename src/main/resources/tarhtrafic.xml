@@ -1,0 +1,76 @@
+<page clearBackStack="true" background="" toolbarcolor="#225ab4" statusbarcolor="#3e7ada" title="عوارض آزاد راه" scrollable="false">
+    <frame scrollable="true" layout="linear_vertical" margin_top="0">
+        <!--<button margin_left="90" margin_right="90" textcolor="#fff" textsize="15" background="#757e8a">افزودن پلاک جدید</button>-->
+        <frame layout="linear_vertical" height="match_parent" scrollable="false" margin="-10">
+            <image width="170" src="http://files.appsan.ir/azad_rah_image/cover.png" margin_bottom="6"></image>
+            <text margin="20" margin_top="10" textsize="18" gravity="center" renderas="html" text="<b>پرداخت بدون توقف عوارض آزادراه‌ها</b>"/>
+        </frame>
+        <!--<frame scrollable="false" onClick="command/addcar" padding="10" margin="20" textcolor="#fff" background="#5489de" borderCornerRadius="5" borderColor="#fff" borderStrokeWidth="1">-->
+        <!--<text background="#5489de" textsize="14" gravity="center" textcolor="#fff">+ افزودن پلاک جدید</text>-->
+        <button progressBarRadius="11" progressBarColor="white" borderCornerRadius="5" onClick="command/addcar" margin_bottom="20" margin_left="100" margin_right="100" textcolor="#fff" textsize="14" background="#5489de">افزودن پلاک جدید +</button>
+        <!--</frame>-->
+        {{#pelaks}}
+        <frame layout="linear_vertical"  borderColor="#a9c4ef" borderStrokeWidth="0.4" background="#fff"  borderCornerRadius="5" padding="10" margin="10" margin_top="0">
+            <frame background="#fff" layout="linear_horizontal" borderCornerRadius="5" borderColor="#000"
+                   borderStrokeWidth="0.44" margin="35" margin_bottom="10" margin_top="10">
+                <frame layout="linear_vertical" height="match_parent" borderCornerRadius="4"
+                       background="blue" width="40">
+                    <text textcolor="#fff" gravity="center" textsize="9" renderas="html" text="IR"/>
+                    <text textcolor="#fff" textsize="9" gravity="center" margin_top="0" renderas="html" text="IRAN"/>
+                </frame>
+                <frame padding="10" borderCornerRadius="5" textcolor="#000" textsize="17" background="#fff" width="160">
+                    <text textsize="17" gravity="center" textcolor="#000" renderas="html" text="{{second}} {{harf}} {{first}}"/>
+                </frame>
+                <divider color="black" orientation="vertical"/>
+                <frame padding="10" borderCornerRadius="5" textcolor="#000" textsize="17" background="#fff" width="60">
+                    <text textsize="17" gravity="center" textcolor="000" renderas="html" text="{{third}}"/>
+                </frame>
+            </frame>
+            <frame background="#fff" layout="linear_horizontal" margin="20" margin_bottom="1" margin_top="-10">
+                <text width="100" textsize="12" gravity="rigth" textcolor="red" renderas="html" text="مجموع بدهی: {{bedehi}}"/>
+                <text width="100" textsize="12" gravity="rigth" textcolor="#000">{{type}} - {{name}}</text>
+            </frame>
+            <frame background="#fff" layout="linear_horizontal" margin_top="1">
+                <image onClick="update/opendeleteask+{{id}};dialog/deleteask" margin_right="-10" src="http://files.appsan.ir/azad_rah_image/trash.png" width="25" height="25"/>
+                <image onClick="update/doeditpelak+{{id}};" margin_left="-10" src="http://files.appsan.ir/azad_rah_image/editing.png" width="25" height="25"/>
+                <button progressBarRadius="8" progressBarColor="white" width="70" onClick="command/{{id}}" borderCornerRadius="5" margin_left="100" textcolor="#fff" textsize="12" background="#a9c4ef">جزئیات و پرداخت</button>
+            </frame>
+<!--            <dialog id="deleteask" scrollable="true" width="match_parent">-->
+<!--                <frame id="pardakhtaskframe" width="match_parent">-->
+<!--                    <frame background="#FFF" layout="linear_vertical">-->
+<!--                        <text gravity="center" textsize="14">پلاک حذف شود؟</text>-->
+<!--                        <frame background="#FFF" layout="linear_horizontal">-->
+<!--                            <button height="50" width="70" padding="35" background="#225ab4" textsize="13" gravity="center"-->
+<!--                                    textcolor="#fff" borderCornerRadius="5" onClick="app/closedialog" margin="20">خیر</button>-->
+<!--                            <button height="50" width="70" padding="35" background="#225ab4" textsize="13" gravity="center"-->
+<!--                                    textcolor="#fff" borderCornerRadius="5" onClick="command/deleteandseepelaks;app/closedialog" margin="20">بله</button>-->
+<!--                        </frame>-->
+<!--                    </frame>-->
+<!--                </frame>-->
+<!--            </dialog>-->
+        </frame>
+        {{/pelaks}}
+        <text></text>
+        <text></text>
+        <text></text>
+        <!--<text></text>-->
+        <!--<text></text>-->
+    </frame>
+    <footer background="#225ab4">
+        <frame layout="linear_vertical" background="#225ab4" margin_left="-1" margin_right="-1">
+            <divider color="#fff" size="2" />
+            <frame layout="linear_horizontal">
+                <frame textcolor="#fff" background="" onClick="command/seepelaks">
+                    <text textsize="12" gravity="center" textcolor="#fff">پرداخت عوارض</text>
+                </frame>
+                <frame textcolor="#fff" background="" onClick="command/pardakhts">
+                    <text textsize="12" gravity="center" textcolor="#fff">پرداخت‌های من</text>
+                </frame>
+                <frame textcolor="#fff" background="" onClick="command/rahnama">
+                    <text textsize="12" gravity="center" textcolor="#fff">راهنما</text>
+                </frame>
+            </frame>
+            <divider color="#fff" size="2" />
+        </frame>
+    </footer>
+</page>

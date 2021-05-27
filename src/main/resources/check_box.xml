@@ -1,0 +1,16 @@
+<dialog id="" scrollable="true">
+    <frame layout="linear_vertical">
+        <checkbox onClick="command/elec" > الکترونیک دیجیتال</checkbox>
+        <checkbox onClick="command/gosaste">گسسته</checkbox>
+      <checkbox onClick="command/robatic">رباتیک</checkbox>
+      <checkbox onClick="command/mabani">مبانی سیستم های نهفته و بی درنگ</checkbox>
+      <checkbox onClick="command/ds">ساختمان داده</checkbox>
+      <checkbox onClick="command/madar">مدار منطقی </checkbox>
+      <checkbox onClick="command/memari">معماری</checkbox>
+      <checkbox onClick="command/compiler">کامپایلر</checkbox>
+      
+     
+        <button background="#7c9473"   textcolor="#cdd0cb" margin_bottom="0" progressBarRadius="11" progressBarColor="white" borderCornerRadius="10" onClick="command/submit" margin_left="50" margin_right="50" textsize="14" >ثبت</button>
+    
+  </frame>
+</dialog>

@@ -1,0 +1,34 @@
+<page toolbarcolor="#225ab4" statusbarcolor="#3e7ada" title="راهنما" scrollable="false">
+    <frame scrollable="true" layout="linear_vertical" height="match_parent">
+        <videoplayer ></videoplayer>
+        <frame margin="10" margin_bottom="0" padding="10" background="#d4e1f7" borderCornerRadius="3" >
+            <text textsize="13">سرویس پرداخت عوارضی آزادراه چیست؟</text>
+        </frame>
+        <frame margin="10"  margin_bottom="0" padding="10" background="#d4e1f7" borderCornerRadius="3" >
+            <text textsize="13">پرداخت خودکار کیف پول چیست؟</text>
+        </frame>
+        <frame margin="10" margin_bottom="0" padding="10" background="#d4e1f7" borderCornerRadius="3" >
+            <text textsize="13">این سرویس پرداخت جدید با مدل پرداخت نقدی قدیمی چه تفاوتی دارد؟</text>
+        </frame>
+        <frame margin="10" margin_bottom="0" padding="10" background="#d4e1f7" borderCornerRadius="3" >
+            <text textsize="13">در این روش از چه آزادراه هایی پشتیبانی شده است؟</text>
+        </frame>
+    </frame>
+    <footer background="#225ab4">
+        <frame layout="linear_vertical" background="#225ab4" margin_left="-1" margin_right="-1">
+            <divider color="#fff" size="2" />
+            <frame layout="linear_horizontal">
+                <frame textcolor="#fff" background="" onClick="command/seepelaks">
+                    <text textsize="12" gravity="center" textcolor="#fff">پرداخت عوارض</text>
+                </frame>
+                <frame textcolor="#fff" background="" onClick="command/pardakhts">
+                    <text textsize="12" gravity="center" textcolor="#fff">پرداخت‌های من</text>
+                </frame>
+                <frame textcolor="#fff" background="" onClick="command/rahnama">
+                    <text textsize="12" gravity="center" textcolor="#fff">راهنما</text>
+                </frame>
+            </frame>
+            <divider color="#fff" size="2" />
+        </frame>
+    </footer>
+</page>

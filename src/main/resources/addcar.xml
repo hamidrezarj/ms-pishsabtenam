@@ -1,0 +1,44 @@
+<page background="" toolbarcolor="#225ab4" statusbarcolor="#3e7ada" title="افزودن پلاک جدید" scrollable="false">
+
+    <frame scrollable="true" layout="linear_vertical">
+        <text margin="20"  textsize="15" gravity="rigth" textcolor="#225ab4" renderas="html" text="مشخصات پلاک خود را وارد کنید و نام دلخواهی برای آن انتخاب کنید"/>
+        <frame background="#fff" layout="linear_horizontal" height="60"
+               borderCornerRadius="5" borderColor="#000" borderStrokeWidth="0.4">
+            <frame layout="linear_vertical" height="match_parent" borderCornerRadius="4"
+                   background="blue" width="30">
+                <text textcolor="#fff" gravity="center" textsize="7" >IR</text>
+                <text textcolor="#fff" textsize="7" gravity="center" margin_top="0">IRAN</text>
+            </frame>
+            <frame borderCornerRadius="5" textcolor="#000" textsize="10" background="#fff" width="250">
+                <!--<text textsize="10" gravity="center" textcolor="#000">پلاک</text>-->
+                <textinput id="first" gravity="center" padding="10" textsize="13"  background="#fff" width="70" height="40" borderColor="#000" borderStrokeWidth="0.4" hint="XX" Inputtype="number"></textinput>
+                <frame borderColor="#000" borderStrokeWidth="0.4" borderCornerRadius="4" textsize="13" layout="linear_horizontal"
+                       background="#fff" width="70" height="40" onClick="update/openharf">
+                    <!--<text gravity="center" textcolor="#000" padding="5" textsize="13">▼</text>-->
+                    <text gravity="left" textcolor="#225ab4">▼</text>
+                    <text padding_right="3" id="harfhere" margin_right="0">--</text>
+                </frame>
+                <textinput id="second" gravity="center" padding="10" borderColor="#000"
+                           Inputtype="number" borderStrokeWidth="0.5" textsize="13" background="#fff" width="70" height="40" hint="XXX"></textinput>
+            </frame>
+            <divider size="1" color="" orientation="vertical"></divider>
+            <frame padding="10" borderCornerRadius="5" textcolor="#000"
+                   textsize="10" background="#fff" width="80" layout="linear_vertical">
+                <!--<text textsize="10" gravity="center" textcolor="000">ایران</text>-->
+                <textinput Inputtype="number" id="third" gravity="center" borderColor="#000" borderStrokeWidth="0.5" textsize="13"
+                           padding="10" background="#fff" width="70" height="40" hint="XX"></textinput>
+            </frame>
+        </frame>
+        <frame  padding="10" background="#d4e1f7" textcolor="#e9f0fb"
+                layout="linear_horizontal" onClick="update/opentype">
+            <text gravity="left" textcolor="#225ab4">▼</text>
+            <text id="typehere" margin_right="0">نوع خودرو</text>
+        </frame>
+        <textinput id="name" gravity="center" background="#fff" padding="10" hint="مثال: ماشین من"></textinput>
+        <text gravity="center" textsize="10" textcolor="red" id="alert" margin_top="0"></text>
+    </frame>
+    <footer >
+        <button margin="0" textcolor="#fff" progressBarRadius="13" progressBarColor="white" textsize="15" background="#5489de"
+                onClick="update/sabtecarcheck;">ثبت پلاک</button>
+    </footer>
+</page>

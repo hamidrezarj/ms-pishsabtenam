@@ -1,0 +1,43 @@
+<page background="" toolbarcolor="#225ab4" statusbarcolor="#3e7ada" title="پرداخت بدهی پلاک" scrollable="false">
+    <frame scrollable="true" layout="linear_vertical">
+        <frame layout="linear_vertical"  borderColor="" borderStrokeWidth=""  borderCornerRadius="5" padding="10" margin="10" margin_top="0">
+            <frame background="#fff" layout="linear_horizontal" borderCornerRadius="5" borderColor="#000"
+                   borderStrokeWidth="0.44" margin="35" margin_bottom="10" margin_top="10">
+                <frame layout="linear_vertical" height="match_parent" borderCornerRadius="4"
+                       background="blue" width="40">
+                    <text textcolor="#fff" gravity="center" textsize="9" renderas="html" text="IR"/>
+                    <text textcolor="#fff" textsize="9" gravity="center" margin_top="0" renderas="html" text="IRAN"/>
+                </frame>
+                <frame padding="10" borderCornerRadius="5" textcolor="#000" textsize="17" background="#fff" width="180">
+                    <text textsize="17" gravity="center" textcolor="#000" renderas="html" text="{{second}} {{harf}} {{first}}"/>
+                </frame>
+                <divider color="black" orientation="vertical"/>
+                <frame padding="10" borderCornerRadius="5" textcolor="#000" textsize="17" background="#fff" width="50">
+                    <text textsize="17" gravity="center" textcolor="000" renderas="html" text="{{third}}"/>
+                </frame>
+            </frame>
+            <frame layout="linear_horizontal" margin="20" margin_bottom="1" margin_top="-10">
+                <text width="100" textsize="12" gravity="rigth" textcolor="red" renderas="html" text="مجموع بدهی: {{bedehi}}"/>
+                <text width="100" textsize="12" gravity="rigth" textcolor="#000">{{type}} - {{name}}</text>
+            </frame>
+        </frame>
+        <frame margin="20" layout="linear_vertical">
+            <frame layout="linear_vertical">
+                <checkbox textsize="13" checked="true">تاریخ: 1399/03/02          مبلغ: 250,000 ریال</checkbox>
+                <divider color="#225ab4" size="1"></divider>
+            </frame>
+            <frame layout="linear_vertical">
+                <checkbox textsize="13" checked="true">تاریخ: 1399/07/14          مبلغ: 60,000 ریال</checkbox>
+                <divider color="#225ab4" size="1"></divider>
+            </frame>
+        </frame>
+    </frame>
+    <footer >
+        <frame layout="linear_vertical" margin="0">
+            <frame height="50" background="#fbe9e9" margin="0">
+                <text textcolor="#c22424" textsize="14" gravity="center">مبلغ قابل پرداخت: {{bedehi}}</text>
+            </frame>
+            <button margin="0" textcolor="#fff" progressBarRadius="13" progressBarColor="white" textsize="15" background="#5489de">پرداخت با کارت</button>
+        </frame>
+    </footer>
+</page>

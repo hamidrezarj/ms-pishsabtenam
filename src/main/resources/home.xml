@@ -1,0 +1,16 @@
+<page background="#cdd0cb">
+  
+  <frame height="50"margin_top="40" layout="linear_vertical" background="#cdd0cb" margin_left="-1" margin_right="-1">
+            <divider  color="#fff" size="3" />
+            <frame textcolor="#e8eae6" background="" onClick="command/seepelaks">
+                    <text textsize="16" gravity="center" textcolor="#7c9473">سرویس پیش ثبت نام دروس</text>
+               </frame>
+            <divider color="#fff" size="3" />
+        </frame>
+
+  
+  <button background="#7c9473" onClick="command/reserve" textcolor="#cdd0cb" margin_top="180" progressBarRadius="11" progressBarColor="white" borderCornerRadius="10"  margin_left="50" margin_right="50"  textsize="14" >پیش ثبت نام دروس</button>
+ 
+  <button background="#7c9473" onClick="command/table" textcolor="#cdd0cb" margin_top="10" margin_bottom="250" progressBarRadius="11" progressBarColor="white" borderCornerRadius="10"  margin_left="50" margin_right="50" textsize="14" >مشاهده برنامه نهایی</button>
+
+</page>

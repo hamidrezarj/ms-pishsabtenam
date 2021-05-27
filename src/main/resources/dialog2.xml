@@ -1,0 +1,37 @@
+<dialog id="harf">
+    <frame layout="linear_vertical" scrollable="true">
+        <checkbox id="الف" onClick="update/الف;app/closedialog">الف</checkbox>
+        <checkbox id="ب" onClick="update/ب;app/closedialog">ب</checkbox>
+        <checkbox id="پ" onClick="update/پ;app/closedialog">پ</checkbox>
+        <checkbox id="ت" onClick="update/ت;app/closedialog">ت</checkbox>
+        <checkbox id="ث" onClick="update/ث;app/closedialog">ث</checkbox>
+        <checkbox id="ج" onClick="update/ج;app/closedialog">ج</checkbox>
+        <checkbox id="چ" onClick="update/چ;app/closedialog">چ</checkbox>
+        <checkbox id="ح" onClick="update/ح;app/closedialog">ح</checkbox>
+        <checkbox id="خ" onClick="update/خ;app/closedialog">خ</checkbox>
+        <checkbox id="د" onClick="update/د;app/closedialog">د</checkbox>
+        <checkbox id="ذ" onClick="update/ذ;app/closedialog">ذ</checkbox>
+        <checkbox id="ر" onClick="update/ر;app/closedialog">ر</checkbox>
+        <checkbox id="ز" onClick="update/ز;app/closedialog">ز</checkbox>
+        <checkbox id="ژ" onClick="update/ژ;app/closedialog">ژ</checkbox>
+        <checkbox id="س" onClick="update/س;app/closedialog">س</checkbox>
+        <checkbox id="ش" onClick="update/ش;app/closedialog">ش</checkbox>
+        <checkbox id="ص" onClick="update/ص;app/closedialog">ص</checkbox>
+        <checkbox id="ض" onClick="update/ض;app/closedialog">ض</checkbox>
+        <checkbox id="ط" onClick="update/ط;app/closedialog">ط</checkbox>
+        <checkbox id="ظ" onClick="update/ظ;app/closedialog">ظ</checkbox>
+        <checkbox id="ع" onClick="update/ع;app/closedialog">ع</checkbox>
+        <checkbox id="غ" onClick="update/غ;app/closedialog">غ</checkbox>
+        <checkbox id="ف" onClick="update/ف;app/closedialog">ف</checkbox>
+        <checkbox id="ق" onClick="update/ق;app/closedialog">ق</checkbox>
+        <checkbox id="ک" onClick="update/ک;app/closedialog">ک</checkbox>
+        <checkbox id="گ" onClick="update/گ;app/closedialog">گ</checkbox>
+        <checkbox id="ل" onClick="update/ل;app/closedialog">ل</checkbox>
+        <checkbox id="م" onClick="update/م;app/closedialog">م</checkbox>
+        <checkbox id="ن" onClick="update/ن;app/closedialog">ن</checkbox>
+        <checkbox id="و" onClick="update/و;app/closedialog">و</checkbox>
+        <checkbox id="ه" onClick="update/ه;app/closedialog">ه</checkbox>
+        <checkbox id="ی" onClick="update/ی;app/closedialog">ی</checkbox>
+        <!--...-->
+    </frame>
+</dialog>

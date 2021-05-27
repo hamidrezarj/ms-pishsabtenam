@@ -1,0 +1,14 @@
+<dialog id="type">
+    <frame layout="linear_vertical">
+        <checkbox id="سواری" onClick="update/سواری;app/closedialog">سواری</checkbox>
+        <checkbox id="وانت و مینی بوس" onClick="update/وانت و مینی بوس;app/closedialog">وانت و مینی بوس</checkbox>
+        <checkbox id="کامیونت" onClick="update/کامیونت;app/closedialog">کامیونت</checkbox>
+        <checkbox id="اتوبوس و کامیون دو محور" onClick="update/اتوبوس و کامیون دو محور;app/closedialog">اتوبوس و کامیون دو محور</checkbox>
+        <checkbox id="کامیون سه محور" onClick="update/کامیون سه محور;app/closedialog">کامیون سه محور</checkbox>
+        <checkbox id="تریلی" onClick="update/تریلی;app/closedialog">تریلی</checkbox>
+        <checkbox id="تانکر و نفت کش" onClick="update/تانکر و نفت کش;app/closedialog">تانکر و نفت کش</checkbox>
+        <checkbox id="سواری عمومی" onClick="update/سواری عمومی;app/closedialog">سواری عمومی</checkbox>
+        <checkbox id="سواری بومی" onClick="update/سواری بومی;app/closedialog">سواری بومی</checkbox>
+        <!--...-->
+    </frame>
+</dialog>
