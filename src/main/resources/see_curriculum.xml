@@ -1,62 +1,54 @@
-<page  height="match_parent" background="#cdd0cb">
-   
-  
-  
- <frame height="50"margin_top="40" layout="linear_vertical" background="#cdd0cb" margin_left="-1" margin_right="-1">
-            <divider  color="#fff" size="3" />
-            <frame textcolor="#e8eae6" background="" onClick="command/seepelaks">
-                    <text textsize="16" gravity="center" textcolor="#7c9473">برنامه درسی</text>
-               </frame>
-            <divider color="#fff" size="3" />
-  </frame>
-  
-  
-  
+<page height="match_parent" background="#cdd0cb">
 
-  
-   <frame margin_left="-1" margin_top="30"  margin_right="-1" layout="linear_horizontal" background="#7c9473" evenweight="true" >
-  		<text   text="نام درس"  gravity="center" textcolor="#fff"></text>
-     	<text   text="استاد"  gravity="center" textcolor="#fff"></text>  
-     <text   text="زمان ارائه"  gravity="center" textcolor="#fff"></text>  
-  </frame> 
-  
-  
-  
-  <frame background="#fff" layout="linear_vertical">
-    
-    
-	<frame layout="linear_vertical">    
-		 <frame layout="linear_horizontal" evenweight="true" >
-  		 <text   text="کامپایلر"  gravity="center" textcolor="#7c9473"></text>
-     	 <text   text="جابری پور"  gravity="center" textcolor="#7c9473"></text> 
-           <text   text=" ۱شنبه/۳شنبه  ۹-۱۰.۳۰"  gravity="center" textcolor="#7c9473"></text> 
- 		 </frame>
-       <divider margin_top="3" color="#7c9473" size="1" />
+
+    <frame height="50" margin_top="40" layout="linear_vertical" background="#cdd0cb" margin_left="-1" margin_right="-1">
+        <divider color="#fff" size="3"/>
+        <frame textcolor="#e8eae6" background="" onClick="command/seepelaks">
+            <text textsize="16" gravity="center" textcolor="#7c9473">برنامه درسی</text>
+        </frame>
+        <divider color="#fff" size="3"/>
     </frame>
-    
-    	<frame layout="linear_vertical">    
-		 <frame layout="linear_horizontal" evenweight="true" >
-  		 <text   text="الکترونیک دیجیتال"  gravity="center" textcolor="#7c9473"></text>
-     	 <text   text="جهانیان"  gravity="center" textcolor="#7c9473"></text> 
-           <text   text="۲شنبه/۴شنبه ۲-۳.۳۰"  gravity="center" textcolor="#7c9473"></text> 
- 		 </frame>
-       <divider margin_top="3" color="#7c9473" size="1" />
+
+
+    <frame margin_left="-1" margin_top="30" margin_right="-1" layout="linear_horizontal" background="#7c9473"
+           evenweight="true">
+        <text text="نام درس" gravity="center" textcolor="#fff"></text>
+        <text text="استاد" gravity="center" textcolor="#fff"></text>
+        <text text="زمان ارائه" gravity="center" textcolor="#fff"></text>
     </frame>
-    
-     	<frame layout="linear_vertical">    
-		 <frame layout="linear_horizontal" evenweight="true" >
-  		 <text   text="رباتیک"  gravity="center" textcolor="#7c9473"></text>
-     	 <text   text="سلیمی"  gravity="center" textcolor="#7c9473"></text> 
-           <text   text="شنبه/۴شنبه ۱۰.۳۰-۱۲"  gravity="center" textcolor="#7c9473"></text> 
- 		 </frame>
-       <divider margin_top="3" color="#7c9473" size="1" />
+
+
+    <frame background="#fff" layout="linear_vertical">
+
+
+        <frame layout="linear_vertical">
+            <frame layout="linear_horizontal" evenweight="true">
+                <text text="کامپایلر" gravity="center" textcolor="#7c9473"></text>
+                <text text="جابری پور" gravity="center" textcolor="#7c9473"></text>
+                <text text=" ۱شنبه/۳شنبه  ۹-۱۰.۳۰" gravity="center" textcolor="#7c9473"></text>
+            </frame>
+            <divider margin_top="3" color="#7c9473" size="1"/>
+        </frame>
+
+        <frame layout="linear_vertical">
+            <frame layout="linear_horizontal" evenweight="true">
+                <text text="الکترونیک دیجیتال" gravity="center" textcolor="#7c9473"></text>
+                <text text="جهانیان" gravity="center" textcolor="#7c9473"></text>
+                <text text="۲شنبه/۴شنبه ۲-۳.۳۰" gravity="center" textcolor="#7c9473"></text>
+            </frame>
+            <divider margin_top="3" color="#7c9473" size="1"/>
+        </frame>
+
+        <frame layout="linear_vertical">
+            <frame layout="linear_horizontal" evenweight="true">
+                <text text="رباتیک" gravity="center" textcolor="#7c9473"></text>
+                <text text="سلیمی" gravity="center" textcolor="#7c9473"></text>
+                <text text="شنبه/۴شنبه ۱۰.۳۰-۱۲" gravity="center" textcolor="#7c9473"></text>
+            </frame>
+            <divider margin_top="3" color="#7c9473" size="1"/>
+        </frame>
+
+
     </frame>
-    
-  		
-    
-    
-    
-  
-  </frame>
-  
+
 </page>

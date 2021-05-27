@@ -20,7 +20,7 @@ public class PishSabteNamService extends APSService {
     String selectedid = "";
     Owner owner = new Owner();
     Pelak pelak = new Pelak();
-//    Connection connection = DatabaseManager.getConnection();
+    //    Connection connection = DatabaseManager.getConnection();
     boolean allowmake = true;
 
     public PishSabteNamService(String channelName) {
@@ -35,8 +35,18 @@ public class PishSabteNamService extends APSService {
     @Override
     public View onCreateView(String command, JSONObject pageData, String userId) {
         View view;
-        view = new HomeView();
-        return view;
+
+
+        if (command.equals("see_curriculum")) {
+            view = new SeeCurriculumView();
+            return view;
+        } else if (command.equals("choose_department")) {
+            view = new ChooseDepartment();
+            return view;
+        } else {
+            view = new HomeView();
+            return view;
+        }
 
 //        if (command.equals("addcar")) {
 //            return new AddCar();
@@ -85,6 +95,21 @@ public class PishSabteNamService extends APSService {
 
     @Override
     public Response onUpdate(ViewUpdate update, String updateCommand, JSONObject pageData, String userId) {
+
+        View view;
+
+        if (updateCommand.equals("choose_dep")) {
+            System.out.println(pageData);
+            view = new ChooseDepartment();
+            return view;
+        }
+        else if(updateCommand.equals("see_courses")){
+            return new CourseSelectDialog();
+        }
+        else {
+
+            return new HomeView();
+        }
 //        if (updateCommand.startsWith("doeditpelak")) {
 //            selectedid = updateCommand.substring(updateCommand.indexOf("+") + 1);
 //            System.out.println(selectedid);
@@ -328,7 +353,7 @@ public class PishSabteNamService extends APSService {
 //            update.addChildUpdate("typehere", "text", selectedtype);
 //        }
 //        return update;
-        HomeView homeView = new HomeView();
-        return homeView;
+//        HomeView homeView = new HomeView();
+//        return homeView;
     }
 }
