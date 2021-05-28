@@ -6,12 +6,16 @@ import ir.appsan.sdk.ViewUpdate;
 import ir.appsan.sdk.Response;
 import ir.sample.app.PishSabteNam.database.DatabaseManager;
 import ir.sample.app.PishSabteNam.database.DbOperation;
+import ir.sample.app.PishSabteNam.models.Department;
 import ir.sample.app.PishSabteNam.models.Owner;
 import ir.sample.app.PishSabteNam.models.Pelak;
 import ir.sample.app.PishSabteNam.views.*;
 import org.json.simple.JSONObject;
 
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 
 public class PishSabteNamService extends APSService {
 
@@ -20,7 +24,7 @@ public class PishSabteNamService extends APSService {
     String selectedid = "";
     Owner owner = new Owner();
     Pelak pelak = new Pelak();
-    //    Connection connection = DatabaseManager.getConnection();
+    Connection connection = DatabaseManager.getConnection();
     boolean allowmake = true;
 
     public PishSabteNamService(String channelName) {
@@ -41,7 +45,11 @@ public class PishSabteNamService extends APSService {
             view = new SeeCurriculumView();
             return view;
         } else if (command.equals("choose_department")) {
+//            HashSet<String> departments = DbOperation.retrieveDepList(connection);
+            ArrayList<Department> departments = DbOperation.retrieveDepList(connection);
+            System.out.println(departments);
             view = new ChooseDepartment();
+            view.setMustacheModel(departments);
             return view;
         } else {
             view = new HomeView();
@@ -102,11 +110,19 @@ public class PishSabteNamService extends APSService {
             System.out.println(pageData);
             view = new ChooseDepartment();
             return view;
-        }
-        else if(updateCommand.equals("see_courses")){
-            return new CourseSelectDialog();
-        }
-        else {
+        } else if (updateCommand.equals("see_courses")) {
+            System.out.println(pageData);
+            String selectedDep = pageData.get("dep_dropdown").toString();
+            if (!selectedDep.equals("انتخاب دانشکده")) {
+                update.addChildUpdate("dep_error", "text", "");
+                return new CourseSelectDialog();
+            }else{
+                //render error
+                update.addChildUpdate("dep_error", "text", "نوع دانشکده نمی تواند خالی باشد.");
+                return update;
+            }
+
+        } else {
 
             return new HomeView();
         }

@@ -10,9 +10,9 @@ public class DatabaseManager {
 
     public static String host = getHost();
     public static String port = getPort();
-    public static String dbname = "azadrah";
-    public static String user = "postgres";
-    public static String pass = "3brGbHEV!gcKYH*m";
+    public static String dbname = "sabtenam";
+    public static String user = "m_borzoo";
+    public static String pass = "b123456B";
 
     public static String url = "jdbc:postgresql://" + host + ":" + port + "/" + dbname + "?user=" + user + "&password=" + pass;
 

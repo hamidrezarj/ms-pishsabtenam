@@ -1,11 +1,16 @@
 package ir.sample.app.PishSabteNam.database;
 
+import ir.sample.app.PishSabteNam.models.Course;
+import ir.sample.app.PishSabteNam.models.Department;
 import ir.sample.app.PishSabteNam.models.Pelak;
+//import jdk.internal.vm.compiler.collections.EconomicMap;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class DbOperation {
 
@@ -35,6 +40,61 @@ public class DbOperation {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static ArrayList<Course> retrieveCourses(Connection connection) {
+        try {
+            String query = "SELECT CourseId, CourseName, CourseDep FROM courses";
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            ResultSet resultSet = pstmt.executeQuery();
+            String data[] = new String[3];
+            ArrayList<Course> courses = new ArrayList<>();
+            while (resultSet.next()) {
+
+                for (int i = 1; i <= 3; i++) {
+                    data[i] = resultSet.getString(i);
+                }
+                Department department = new Department();
+                department.name = data[3];
+                Course course = new Course(data[1], data[2], department);
+                courses.add(course);
+            }
+            return courses;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
+
+
+    public static ArrayList<Department> retrieveDepList(Connection connection) {
+
+        try {
+            String query = "SELECT courses.courseid, courses.coursename, courses.coursedep FROM courses";
+            PreparedStatement pstmt = null;
+            pstmt = connection.prepareStatement(query);
+            ResultSet resultSet = pstmt.executeQuery();
+            String data[] = new String[4];
+            ArrayList<Department> departments = new ArrayList<>();
+//            HashSet<Department> departments = new HashSet<>();
+//            HashSet<String> departments = new HashSet<>();
+            while (resultSet.next()) {
+                Department department = new Department();
+                for (int i = 1; i <= 3; i++) {
+                    data[i] = resultSet.getString(i).trim();
+                }
+                department.name = data[3];
+                if (!departments.contains(department)) {
+                    departments.add(department);
+                }
+            }
+//            Department[] res = new Department[departments.size()];
+            return departments;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+
     }
 
     public static ArrayList<Pelak> retrievePelaks(String number, Connection connection) {

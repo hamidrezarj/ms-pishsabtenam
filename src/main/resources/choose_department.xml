@@ -1,17 +1,22 @@
 <page background="#cdd0cb">
 
-    <text textcolor="#7c9473" gravity="center" margin_top="100" textsize="14">لطفا ابتدا از منوی زیر دانشکده مربوطه را
-        انتخاب کنید.
-    </text>
+    <text textcolor="#7c9473" gravity="center" margin_top="100" textsize="14">لطفا ابتدا از منوی زیر دانشکده مربوطه را انتخاب کنید.</text>
     <divider color="#fff" size="2" margin_left="50" margin_right="50"/>
+
+
     <frame  margin_left="50" margin_right="50" background="#fff" margin_top="80">
-        <dropdown onClick="update/choose_dep" id="dep_dropdown" gravity="center">
+        <dropdown  id="dep_dropdown" gravity="center">
             <item id="default">انتخاب دانشکده</item>
-            <item id="computer">برق و کامپیوتر</item>
+            {{#departments}}
+            <item id="dep_i">{{name}}</item>
+            {{/departments}}
             <item id="elahiat">الهیات</item>
             <item id="tarbiat">تربیت بدنی</item>
         </dropdown>
     </frame>
+
+<!--    RENDER ERROR HERE-->
+    <text id="dep_error" textcolor="#a83a32" textalignment="center"></text>
 
     <button background="#7c9473" textcolor="#cdd0cb" margin_top="200" progressBarRadius="11" progressBarColor="white"
             borderCornerRadius="10" onClick="update/see_courses;app/closedialog" margin_left="50" margin_right="50" textsize="14">مشاهده دروس</button>

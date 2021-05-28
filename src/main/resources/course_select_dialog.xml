@@ -1,13 +1,13 @@
-<dialog id="" scrollable="true">
+<dialog id="" scrollable="true" title="انتخاب دروس" text="لطفا دروس مورد نظرتان را انتخاب کنید." gravity="right">
     <frame layout="linear_vertical">
-        <checkbox onClick="command/elec">الکترونیک دیجیتال</checkbox>
-        <checkbox onClick="command/gosaste">گسسته</checkbox>
-        <checkbox onClick="command/robatic">رباتیک</checkbox>
-        <checkbox onClick="command/mabani">مبانی سیستم های نهفته و بی درنگ</checkbox>
-        <checkbox onClick="command/ds">ساختمان داده</checkbox>
-        <checkbox onClick="command/madar">مدار منطقی</checkbox>
-        <checkbox onClick="command/memari">معماری</checkbox>
-        <checkbox onClick="command/compiler">کامپایلر</checkbox>
+        <checkbox id="elec">الکترونیک دیجیتال</checkbox>
+        <checkbox id="gosaste">گسسته</checkbox>
+        <checkbox id="robotic">رباتیک</checkbox>
+        <checkbox id="embedded">مبانی سیستم های نهفته و بی درنگ</checkbox>
+        <checkbox id="ds">ساختمان داده</checkbox>
+        <checkbox id="madar">مدار منطقی</checkbox>
+        <checkbox id="memari">معماری</checkbox>
+        <checkbox id="compiler">کامپایلر</checkbox>
 
 
         <button background="#7c9473" textcolor="#cdd0cb" margin_bottom="0" progressBarRadius="11"
