@@ -6,22 +6,27 @@ public class Student {
     public String id = "";
     public String firstName = "";
     public String lastName = "";
-    public int tedadVahed;
+    public String tedadVahed;
     public ArrayList<Course> courses;
 
     public Student() {
         courses = new ArrayList<>();
     }
 
-    public void setTedadVahed(int tedadVahed) {
+    public void setTedadVahed(String tedadVahed) {
         this.tedadVahed = tedadVahed;
     }
 
     public static int calcTedadVahed(ArrayList<Course> courses) {
         int res = 0;
         for (Course c : courses) {
-            res += c.tedadVahed;
+            res += Integer.parseInt(c.tedadVahed);
         }
         return res;
+    }
+
+    @Override
+    public String toString() {
+        return "Student instance: " + this.id;
     }
 }

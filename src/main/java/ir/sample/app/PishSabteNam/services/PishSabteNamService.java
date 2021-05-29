@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 
 public class PishSabteNamService extends APSService {
 
@@ -55,11 +56,33 @@ public class PishSabteNamService extends APSService {
             return view;
         } else if (command.equals("add_course")) {
             return new ChooseDepartment();
-        } else {
-            // Add This Student to DB
+        }
+//        } else if (command.equals("see_courses")) {
+//            System.out.println(pageData);
+//            String selectedDep = pageData.get("dep_dropdown").toString();
+//            if (!selectedDep.equals("انتخاب دانشکده")) {
+////                update.addChildUpdate("dep_error", "text", "");
+//                view = new ChooseCurriculum();
+////                CourseList courseList = new CourseList();
+////                courseList.courses = DbOperation.retrieveCourses(selectedDep, connection);
+////                System.out.println(courseList.courses);
+////
+////
+////                view.setMustacheModel(courseList);
+//                return view;
+//            }
+//            else{
+//                return null;
+//            }
+//        }
+        else {
             System.out.println("Student ID: " + userId);
-
-
+            Student student = DbOperation.retrieveStudent(userId, connection);
+            // Register Student for first time into DB
+            if (student.id.isEmpty()) {
+//                System.out.println("NULL STUDENT");
+                DbOperation.registerStudent(userId, 0, connection);
+            }
             view = new HomeView();
             return view;
         }
@@ -123,9 +146,13 @@ public class PishSabteNamService extends APSService {
             String selectedDep = pageData.get("dep_dropdown").toString();
             if (!selectedDep.equals("انتخاب دانشکده")) {
                 update.addChildUpdate("dep_error", "text", "");
-                view = new CourseSelectDialog();
+                view = new ChooseCurriculum();
+//                view = new CourseSelectDialog();
                 CourseList courseList = new CourseList();
+
+                // call repFormat whenever you want to represent courses in xml
                 courseList.courses = DbOperation.retrieveCourses(selectedDep, connection);
+                Course.convToRepUtility(courseList.courses);
                 System.out.println(courseList.courses);
 
 
@@ -138,14 +165,82 @@ public class PishSabteNamService extends APSService {
             }
 
         } else if (updateCommand.equals("courses_chosen")) {
+
+            // first make courseAttempt array
+            for (Object obj: pageData.keySet()) {
+                String arg = (String) obj;
+                if (arg.length() == 10 && arg.contains("_") && pageData.get(arg).equals("true")) {
+                    String courseID = arg;
+                    Course selectedCourse = DbOperation.retrieveCourse(Course.convToEngNum(courseID), connection);
+                    System.out.println(selectedCourse);
+
+                    if (!courseTakeAttempt.contains(selectedCourse)) {
+                        courseTakeAttempt.add(selectedCourse);
+                    }
+
+                }
+            }
+
+
+
             System.out.println(pageData);
-            return new SeeCurriculumView();
+//            return new SeeCurriculumView();
+
+            boolean errorExists = false;
+            // if already has some courses in db... do sth
+
+            // if courses have time conflicts
+            ArrayList<Course> deletedCourses = new ArrayList<>();
+            for (Course c1 : courseTakeAttempt) {
+                for (Course c2 : courseTakeAttempt) {
+                    if (c1.equals(c2))
+                        continue;
+
+                    if(deletedCourses.contains(c1) && deletedCourses.contains(c2))
+                        continue;
+
+                    if (Course.checkTimeConflicts(c1, c2, "_")) {
+                        // Render error
+                        String errorValue = String.format("دروس %s و %s با هم تداخل دارند.", c1, c2);
+                        update.addChildUpdate("conflict_error", "text", errorValue);
+
+                        // remove from takenlist
+
+                        deletedCourses.add(c1);
+                        deletedCourses.add(c2);
+
+                        errorExists = true;
+                    }
+                }
+            }
+
+            for (Iterator<Course> iterator = courseTakeAttempt.iterator(); iterator.hasNext(); ) {
+                Course c = iterator.next();
+                if (deletedCourses.contains(c)) {
+                    iterator.remove();
+                }
+            }
+
+            // if maximum tedadvahed reached do sth
+
+            // else successfully take courses and register to db.
+            if (!courseTakeAttempt.isEmpty()) {
+                System.out.println(Arrays.toString(courseTakeAttempt.toArray()));
+                DbOperation.registerSelectedCourses(userId, courseTakeAttempt, connection);
+            }
+
+            if (errorExists) {
+                return update;
+            } else
+                return new SeeCurriculumView();
+
 
         } else if (updateCommand.startsWith("takecourse")) {
-            System.out.println(updateCommand);
+
+            System.out.println(pageData);
             String courseID = updateCommand.split("/")[1];
             System.out.println("course id: " + courseID);
-            Course selectedCourse = DbOperation.retrieveCourse(courseID, connection);
+            Course selectedCourse = DbOperation.retrieveCourse(Course.convToEngNum(courseID), connection);
             System.out.println(selectedCourse);
 
             if (!courseTakeAttempt.contains(selectedCourse)) {

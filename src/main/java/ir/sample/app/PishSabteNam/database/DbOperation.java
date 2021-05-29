@@ -15,6 +15,8 @@ import java.util.HashSet;
 
 public class DbOperation {
 
+    public static String delimiter = "_";
+
     public static void registerPelak(Pelak pelak, String number, Connection connection) {
         try {
             String count = "SELECT COUNT(*) FROM numberpelak";
@@ -43,9 +45,23 @@ public class DbOperation {
         }
     }
 
+    public static void registerStudent(String user_id, int studentTedadVahed, Connection connection) {
+        try {
+            String query = "INSERT INTO student(shomaredaneshjooyi, takencoursesnumber) VALUES (?,?)";
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setString(1, user_id);
+//            pstmt.setString(2, studentTedadVahed);
+            pstmt.setInt(2, studentTedadVahed);
+            pstmt.executeUpdate();
+            pstmt.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
     public static Student retrieveStudent(String user_id, Connection connection) {
         try {
-            String query = "SELECT shomaredaneshjooyi FROM student WHERE shomaredaneshjooyi=?";
+            String query = "SELECT shomaredaneshjooyi, takencoursesnumber FROM student WHERE shomaredaneshjooyi=?";
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setString(1, user_id);
             ResultSet resultSet = pstmt.executeQuery();
@@ -53,6 +69,7 @@ public class DbOperation {
             while (resultSet.next()) {
 
                 student.id = resultSet.getString(1);
+                student.tedadVahed = Integer.toString(resultSet.getInt(2));
             }
 
             query = "SELECT shomaredaneshjooyi, courseid FROM takencourses WHERE shomaredaneshjooyi=?";
@@ -68,6 +85,61 @@ public class DbOperation {
                 // Retrieve Student's tedadvahed
             }
             return student;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
+
+    public static void registerSelectedCourses(String user_id, ArrayList<Course> courses, Connection connection) {
+        try {
+            String query = "INSERT INTO takencourses(shomaredaneshjooyi,courseid) VALUES (?,?)";
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setString(1, user_id);
+            for (Course course : courses) {
+                pstmt.setString(2, course.id);
+                pstmt.executeUpdate();
+            }
+            pstmt.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+
+    }
+
+    public static ArrayList<Course> retrieveTakenCourses(String user_id, Connection connection) {
+        try {
+            String query = "SELECT courseid, coursename, coursedep, courseprofessor, firstday, secondday, maximumcapacity, availablecapacity, " +
+                    "tedadvahed FROM student INNER JOIN takencourses on student.shomaredaneshjooyi=takencourses.shomaredaneshjooyi INNER JOIN" +
+                    "courses on courses.courseid=takencourses.courseid WHERE student.shomaredaneshjooyi=?";
+
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setString(1, user_id);
+            ResultSet resultSet = pstmt.executeQuery();
+            String data[] = new String[10];
+            ArrayList<Course> courses = new ArrayList<>();
+            while (resultSet.next()) {
+
+                for (int i = 1; i <= 9; i++) {
+                    data[i] = resultSet.getString(i).trim();
+                }
+                Department department = new Department();
+                department.name = data[3];
+
+                Course course = new Course(data[1], data[2], department);
+                course.teacher = data[4];
+//                course.firstPresentDate = Course.convToRepresentFormat(data[5], delimiter);
+//                course.secondPresentDate = Course.convToRepresentFormat(data[6], delimiter);
+                course.firstPresentDate = data[5];
+                course.secondPresentDate = data[6];
+                course.capacity = data[7];
+                course.reservedCnt = data[8];
+                course.tedadVahed = data[9];
+
+                courses.add(course);
+            }
+            return courses;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return null;
@@ -92,11 +164,13 @@ public class DbOperation {
 
                 Course course = new Course(data[1], data[2], department);
                 course.teacher = data[4];
+//                course.firstPresentDate = Course.convToRepresentFormat(data[5], delimiter);
+//                course.secondPresentDate = Course.convToRepresentFormat(data[6], delimiter);
                 course.firstPresentDate = data[5];
                 course.secondPresentDate = data[6];
-                course.capacity = Integer.parseInt(data[7]);
-                course.reservedCnt = Integer.parseInt(data[8]);
-                course.tedadVahed = Integer.parseInt(data[9]);
+                course.capacity = data[7];
+                course.reservedCnt = data[8];
+                course.tedadVahed = data[9];
 
                 courses.add(course);
             }
@@ -129,11 +203,14 @@ public class DbOperation {
                 course.department = department;
 
                 course.teacher = data[4];
+//                course.firstPresentDate = Course.convToRepresentFormat(data[5], delimiter);
+//                course.secondPresentDate = Course.convToRepresentFormat(data[6], delimiter);
                 course.firstPresentDate = data[5];
                 course.secondPresentDate = data[6];
-                course.capacity = Integer.parseInt(data[7]);
-                course.reservedCnt = Integer.parseInt(data[8]);
-                course.tedadVahed = Integer.parseInt(data[9]);
+                course.capacity = data[7];
+                course.reservedCnt = data[8];
+                course.tedadVahed = data[9];
+
 
                 courses.add(course);
 

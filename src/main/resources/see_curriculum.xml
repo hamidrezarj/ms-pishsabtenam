@@ -12,9 +12,14 @@
 
     <frame margin_left="-1" margin_top="30" margin_right="-1" layout="linear_horizontal" background="#7c9473"
            evenweight="true">
-        <text text="نام درس" gravity="center" textcolor="#fff"></text>
-        <text text="استاد" gravity="center" textcolor="#fff"></text>
+
         <text text="زمان ارائه" gravity="center" textcolor="#fff"></text>
+        <text text="استاد" gravity="center" textcolor="#fff"></text>
+        <text text="اشغال شده" gravity="center" textcolor="#fff"></text>
+        <text text="ظرفیت" gravity="center" textcolor="#fff"></text>
+        <text text="واحد" gravity="center" textcolor="#fff"></text>
+        <text text="نام درس" gravity="center" textcolor="#fff"></text>
+        <text text="شماره و گروه درس" gravity="center" textcolor="#fff"></text>
     </frame>
 
 
@@ -23,9 +28,17 @@
 
         <frame layout="linear_vertical">
             <frame layout="linear_horizontal" evenweight="true">
-                <text text="کامپایلر" gravity="center" textcolor="#7c9473"></text>
-                <text text="جابری پور" gravity="center" textcolor="#7c9473"></text>
+<!--                <text text="کامپایلر" gravity="center" textcolor="#7c9473"></text>-->
+<!--                <text text="جابری پور" gravity="center" textcolor="#7c9473"></text>-->
+<!--                <text text=" ۱شنبه/۳شنبه  ۹-۱۰.۳۰" gravity="center" textcolor="#7c9473"></text>-->
+
                 <text text=" ۱شنبه/۳شنبه  ۹-۱۰.۳۰" gravity="center" textcolor="#7c9473"></text>
+                <text text="جابری پور" gravity="center" textcolor="#7c9473"></text>
+                <text text="18" gravity="center" textcolor="#7c9473"></text>
+                <text text="50" gravity="center" textcolor="#7c9473"></text>
+                <text text="3" gravity="center" textcolor="#7c9473"></text>
+                <text text="کامپایلر" gravity="center" textcolor="#7c9473"></text>
+                <text text="4301014-01" gravity="center" textcolor="#7c9473"></text>
             </frame>
             <divider margin_top="3" color="#7c9473" size="1"/>
         </frame>
