@@ -16,7 +16,7 @@
 
     <button background="#7c9473" onClick="command/see_curriculum" textcolor="#cdd0cb" margin_top="10"
             margin_bottom="250" progressBarRadius="11" progressBarColor="white" borderCornerRadius="10" margin_left="50"
-            margin_right="50" textsize="14">مشاهده برنامه نهایی
+            margin_right="50" textsize="14">مشاهده برنامه درسی
     </button>
 
 </page>

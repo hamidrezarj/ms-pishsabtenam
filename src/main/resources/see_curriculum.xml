@@ -1,4 +1,4 @@
-<page height="match_parent" background="#cdd0cb">
+<page height="match_parent" background="#cdd0cb" title="برنامه درسی">
 
 
     <frame height="50" margin_top="40" layout="linear_vertical" background="#cdd0cb" margin_left="-1" margin_right="-1">
@@ -20,52 +20,41 @@
         <text text="واحد" gravity="center" textcolor="#fff"></text>
         <text text="نام درس" gravity="center" textcolor="#fff"></text>
         <text text="شماره و گروه درس" gravity="center" textcolor="#fff"></text>
+<!--        <text text="#" gravity="center" textcolor="#fff"></text>-->
     </frame>
 
 
     <frame background="#fff" layout="linear_vertical">
 
-
+        {{#courses}}
         <frame layout="linear_vertical">
             <frame layout="linear_horizontal" evenweight="true">
-<!--                <text text="کامپایلر" gravity="center" textcolor="#7c9473"></text>-->
-<!--                <text text="جابری پور" gravity="center" textcolor="#7c9473"></text>-->
-<!--                <text text=" ۱شنبه/۳شنبه  ۹-۱۰.۳۰" gravity="center" textcolor="#7c9473"></text>-->
 
-                <text text=" ۱شنبه/۳شنبه  ۹-۱۰.۳۰" gravity="center" textcolor="#7c9473"></text>
-                <text text="جابری پور" gravity="center" textcolor="#7c9473"></text>
-                <text text="18" gravity="center" textcolor="#7c9473"></text>
-                <text text="50" gravity="center" textcolor="#7c9473"></text>
-                <text text="3" gravity="center" textcolor="#7c9473"></text>
-                <text text="کامپایلر" gravity="center" textcolor="#7c9473"></text>
-                <text text="4301014-01" gravity="center" textcolor="#7c9473"></text>
+                <text text="{{firstPresentDate}} / {{secondPresentDate}}" gravity="center" textcolor="#7c9473"/>
+                <text text="{{teacher}}" gravity="center" textcolor="#7c9473"/>
+                <text text="{{reservedCnt}}" gravity="center" textcolor="#7c9473"/>
+                <text text="{{capacity}}" gravity="center" textcolor="#7c9473"/>
+                <text text="{{tedadVahed}}" gravity="center" textcolor="#7c9473"/>
+                <text text="{{name}}" gravity="center" textcolor="#7c9473"/>
+                <text text="{{id}}" gravity="center" textcolor="#7c9473"/>
+
+<!--                <checkbox id="{{id}}"  gravity="center"/>-->
+
             </frame>
             <divider margin_top="3" color="#7c9473" size="1"/>
         </frame>
-
-        <frame layout="linear_vertical">
-            <frame layout="linear_horizontal" evenweight="true">
-                <text text="الکترونیک دیجیتال" gravity="center" textcolor="#7c9473"></text>
-                <text text="جهانیان" gravity="center" textcolor="#7c9473"></text>
-                <text text="۲شنبه/۴شنبه ۲-۳.۳۰" gravity="center" textcolor="#7c9473"></text>
-            </frame>
-            <divider margin_top="3" color="#7c9473" size="1"/>
-        </frame>
-
-        <frame layout="linear_vertical">
-            <frame layout="linear_horizontal" evenweight="true">
-                <text text="رباتیک" gravity="center" textcolor="#7c9473"></text>
-                <text text="سلیمی" gravity="center" textcolor="#7c9473"></text>
-                <text text="شنبه/۴شنبه ۱۰.۳۰-۱۲" gravity="center" textcolor="#7c9473"></text>
-            </frame>
-            <divider margin_top="3" color="#7c9473" size="1"/>
-        </frame>
-
+        {{/courses}}
 
     </frame>
 
+    <!--   Render Errors here -->
+    <text id="conflict_error" textcolor="#a83a32" textalignment="center"></text>
+    <text id="max_tedadvahed_error" textcolor="#a83a32" textalignment="center"></text>
+    <text id="same_courses_error" textcolor="#a83a32" textalignment="center"></text>
+
+
 
     <button background="#7c9473" textcolor="#cdd0cb" margin_top="200" progressBarRadius="11" progressBarColor="white"
-            borderCornerRadius="10" onClick="command/add_course" margin_left="50" margin_right="50" textsize="14">افزودن درس</button>
+            borderCornerRadius="10" onClick="command/choose_dep" margin_left="50" margin_right="50" textsize="14">افزودن درس جدید</button>
 
 </page>

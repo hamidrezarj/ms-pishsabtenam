@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 
 public class Course {
 
@@ -276,5 +277,23 @@ public class Course {
         return res.toString();
     }
 
+    public static ArrayList<Course> listDifference(ArrayList<Course> all, ArrayList<Course> taken) {
+        HashSet<Course> allSet = new HashSet<>(all);
+        HashSet<Course> takenSet = new HashSet<>(taken);
 
+        allSet.removeAll(takenSet);
+
+        ArrayList<Course> res = new ArrayList<>(allSet);
+        return res;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + this.name.hashCode();
+        result = 31 * result + Integer.parseInt(this.capacity);
+        result = 31 * result + this.id.hashCode();
+        return result;
+    }
 }

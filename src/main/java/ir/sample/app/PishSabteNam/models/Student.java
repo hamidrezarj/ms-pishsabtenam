@@ -9,6 +9,8 @@ public class Student {
     public String tedadVahed;
     public ArrayList<Course> courses;
 
+    public static int maxTedadVahed = 20;
+
     public Student() {
         courses = new ArrayList<>();
     }

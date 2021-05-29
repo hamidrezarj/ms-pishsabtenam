@@ -59,6 +59,19 @@ public class DbOperation {
         }
     }
 
+    public static void updateStudentByTedadVahed(String user_id, int studentTedadVahed, Connection connection){
+        try {
+            String query = "UPDATE student set takencoursesnumber=? WHERE shomaredaneshjooyi=?";
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setInt(1, studentTedadVahed);
+            pstmt.setString(2, user_id);
+            pstmt.executeUpdate();
+            pstmt.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
     public static Student retrieveStudent(String user_id, Connection connection) {
         try {
             String query = "SELECT shomaredaneshjooyi, takencoursesnumber FROM student WHERE shomaredaneshjooyi=?";
@@ -108,11 +121,24 @@ public class DbOperation {
 
     }
 
+    public static void updateCourseByReservedCnt(String courseID, int reservedCnt, Connection connection){
+        try {
+            String query = "UPDATE courses set availablecapacity=? WHERE courseid=?";
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setInt(1, reservedCnt);
+            pstmt.setString(2, courseID);
+            pstmt.executeUpdate();
+            pstmt.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
     public static ArrayList<Course> retrieveTakenCourses(String user_id, Connection connection) {
         try {
-            String query = "SELECT courseid, coursename, coursedep, courseprofessor, firstday, secondday, maximumcapacity, availablecapacity, " +
-                    "tedadvahed FROM student INNER JOIN takencourses on student.shomaredaneshjooyi=takencourses.shomaredaneshjooyi INNER JOIN" +
-                    "courses on courses.courseid=takencourses.courseid WHERE student.shomaredaneshjooyi=?";
+            String query = "SELECT courses.courseid, coursename, coursedep, courseprofessor, firstday, secondday, maximumcapacity, availablecapacity, " +
+                    "tedadvahed FROM student INNER JOIN takencourses on student.shomaredaneshjooyi=takencourses.shomaredaneshjooyi INNER JOIN courses " +
+                    "on courses.courseid=takencourses.courseid WHERE student.shomaredaneshjooyi=?";
 
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setString(1, user_id);
