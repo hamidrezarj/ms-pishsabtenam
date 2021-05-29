@@ -1,17 +1,20 @@
-<dialog id="" scrollable="true" title="انتخاب دروس" text="لطفا دروس مورد نظرتان را انتخاب کنید." gravity="right">
+<dialog id="courses_dialog" scrollable="true" title="انتخاب دروس" text="لطفا دروس مورد نظرتان را انتخاب کنید." gravity="right">
     <frame layout="linear_vertical">
-        <checkbox id="elec">الکترونیک دیجیتال</checkbox>
-        <checkbox id="gosaste">گسسته</checkbox>
-        <checkbox id="robotic">رباتیک</checkbox>
-        <checkbox id="embedded">مبانی سیستم های نهفته و بی درنگ</checkbox>
-        <checkbox id="ds">ساختمان داده</checkbox>
-        <checkbox id="madar">مدار منطقی</checkbox>
-        <checkbox id="memari">معماری</checkbox>
-        <checkbox id="compiler">کامپایلر</checkbox>
+        {{#courses}}
+
+            <checkbox id="{{id}}"  onclick="update/takecourse/{{id}}">{{name}}</checkbox>
+        {{/courses}}
+<!--        <checkbox id="gosaste"  onclick="update/gosaste">گسسته</checkbox>-->
+<!--        <checkbox id="robotic"  onclick="update/robotic">رباتیک</checkbox>-->
+<!--        <checkbox id="embedded" onclick="update/embedded">مبانی سیستم های نهفته و بی درنگ</checkbox>-->
+<!--        <checkbox id="ds"       onclick="update/ds">ساختمان داده</checkbox>-->
+<!--        <checkbox id="madar"    onclick="update/madar">مدار منطقی</checkbox>-->
+<!--        <checkbox id="memari"   onclick="update/memari">معماری</checkbox>-->
+<!--        <checkbox id="compiler" onclick="update/compiler">کامپایلر</checkbox>-->
 
 
         <button background="#7c9473" textcolor="#cdd0cb" margin_bottom="0" progressBarRadius="11"
-                progressBarColor="white" borderCornerRadius="10" onClick="command/submit" margin_left="50"
+                progressBarColor="white" borderCornerRadius="10" onClick="update/courses_chosen;app/closedialog" margin_left="50"
                 margin_right="50" textsize="14">ثبت
         </button>
 

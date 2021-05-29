@@ -10,8 +10,8 @@
             {{#departments}}
             <item id="dep_i">{{name}}</item>
             {{/departments}}
-            <item id="elahiat">الهیات</item>
-            <item id="tarbiat">تربیت بدنی</item>
+<!--            <item id="elahiat">الهیات</item>-->
+<!--            <item id="tarbiat">تربیت بدنی</item>-->
         </dropdown>
     </frame>
 
@@ -19,7 +19,7 @@
     <text id="dep_error" textcolor="#a83a32" textalignment="center"></text>
 
     <button background="#7c9473" textcolor="#cdd0cb" margin_top="200" progressBarRadius="11" progressBarColor="white"
-            borderCornerRadius="10" onClick="update/see_courses;app/closedialog" margin_left="50" margin_right="50" textsize="14">مشاهده دروس</button>
+            borderCornerRadius="10" onClick="update/see_courses;app/closedialog" margin_left="50" margin_right="50" textsize="14">انتخاب دروس</button>
 
     <button background="#7c9473" textcolor="#cdd0cb" margin_top="5" margin_bottom="25" progressBarRadius="11"
             progressBarColor="white" borderCornerRadius="10" onClick="command/addcar" margin_left="50" margin_right="50"

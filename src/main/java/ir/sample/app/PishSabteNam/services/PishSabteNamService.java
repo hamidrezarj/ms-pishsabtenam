@@ -6,9 +6,7 @@ import ir.appsan.sdk.ViewUpdate;
 import ir.appsan.sdk.Response;
 import ir.sample.app.PishSabteNam.database.DatabaseManager;
 import ir.sample.app.PishSabteNam.database.DbOperation;
-import ir.sample.app.PishSabteNam.models.Department;
-import ir.sample.app.PishSabteNam.models.Owner;
-import ir.sample.app.PishSabteNam.models.Pelak;
+import ir.sample.app.PishSabteNam.models.*;
 import ir.sample.app.PishSabteNam.views.*;
 import org.json.simple.JSONObject;
 
@@ -26,6 +24,9 @@ public class PishSabteNamService extends APSService {
     Pelak pelak = new Pelak();
     Connection connection = DatabaseManager.getConnection();
     boolean allowmake = true;
+
+    ArrayList<Course> courseTakeAttempt = new ArrayList<>();
+
 
     public PishSabteNamService(String channelName) {
         super(channelName);
@@ -45,13 +46,20 @@ public class PishSabteNamService extends APSService {
             view = new SeeCurriculumView();
             return view;
         } else if (command.equals("choose_department")) {
-//            HashSet<String> departments = DbOperation.retrieveDepList(connection);
-            ArrayList<Department> departments = DbOperation.retrieveDepList(connection);
-            System.out.println(departments);
+            DepartmentList departmentList = new DepartmentList();
+            departmentList.departments = DbOperation.retrieveDepList(connection);
+
+            System.out.println(departmentList.departments);
             view = new ChooseDepartment();
-            view.setMustacheModel(departments);
+            view.setMustacheModel(departmentList);
             return view;
+        } else if (command.equals("add_course")) {
+            return new ChooseDepartment();
         } else {
+            // Add This Student to DB
+            System.out.println("Student ID: " + userId);
+
+
             view = new HomeView();
             return view;
         }
@@ -115,13 +123,37 @@ public class PishSabteNamService extends APSService {
             String selectedDep = pageData.get("dep_dropdown").toString();
             if (!selectedDep.equals("انتخاب دانشکده")) {
                 update.addChildUpdate("dep_error", "text", "");
-                return new CourseSelectDialog();
-            }else{
+                view = new CourseSelectDialog();
+                CourseList courseList = new CourseList();
+                courseList.courses = DbOperation.retrieveCourses(selectedDep, connection);
+                System.out.println(courseList.courses);
+
+
+                view.setMustacheModel(courseList);
+                return view;
+            } else {
                 //render error
                 update.addChildUpdate("dep_error", "text", "نوع دانشکده نمی تواند خالی باشد.");
                 return update;
             }
 
+        } else if (updateCommand.equals("courses_chosen")) {
+            System.out.println(pageData);
+            return new SeeCurriculumView();
+
+        } else if (updateCommand.startsWith("takecourse")) {
+            System.out.println(updateCommand);
+            String courseID = updateCommand.split("/")[1];
+            System.out.println("course id: " + courseID);
+            Course selectedCourse = DbOperation.retrieveCourse(courseID, connection);
+            System.out.println(selectedCourse);
+
+            if (!courseTakeAttempt.contains(selectedCourse)) {
+                courseTakeAttempt.add(selectedCourse);
+            }
+
+
+            return update;
         } else {
 
             return new HomeView();

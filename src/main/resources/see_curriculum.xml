@@ -51,4 +51,8 @@
 
     </frame>
 
+
+    <button background="#7c9473" textcolor="#cdd0cb" margin_top="200" progressBarRadius="11" progressBarColor="white"
+            borderCornerRadius="10" onClick="command/add_course" margin_left="50" margin_right="50" textsize="14">افزودن درس</button>
+
 </page>

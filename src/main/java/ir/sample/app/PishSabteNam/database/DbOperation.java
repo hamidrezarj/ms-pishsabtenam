@@ -3,6 +3,7 @@ package ir.sample.app.PishSabteNam.database;
 import ir.sample.app.PishSabteNam.models.Course;
 import ir.sample.app.PishSabteNam.models.Department;
 import ir.sample.app.PishSabteNam.models.Pelak;
+import ir.sample.app.PishSabteNam.models.Student;
 //import jdk.internal.vm.compiler.collections.EconomicMap;
 
 import java.sql.Connection;
@@ -42,24 +43,102 @@ public class DbOperation {
         }
     }
 
-    public static ArrayList<Course> retrieveCourses(Connection connection) {
+    public static Student retrieveStudent(String user_id, Connection connection) {
         try {
-            String query = "SELECT CourseId, CourseName, CourseDep FROM courses";
+            String query = "SELECT shomaredaneshjooyi FROM student WHERE shomaredaneshjooyi=?";
             PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setString(1, user_id);
             ResultSet resultSet = pstmt.executeQuery();
-            String data[] = new String[3];
+            Student student = new Student();
+            while (resultSet.next()) {
+
+                student.id = resultSet.getString(1);
+            }
+
+            query = "SELECT shomaredaneshjooyi, courseid FROM takencourses WHERE shomaredaneshjooyi=?";
+
+            pstmt = connection.prepareStatement(query);
+            pstmt.setString(1, user_id);
+            resultSet = pstmt.executeQuery();
+            while (resultSet.next()) {
+                String courseid = resultSet.getString(2);
+//                student.id = resultSet.getString(1);
+                Course course = DbOperation.retrieveCourse(courseid, connection);
+                student.courses.add(course);
+                // Retrieve Student's tedadvahed
+            }
+            return student;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
+
+    public static ArrayList<Course> retrieveCourses(String dep, Connection connection) {
+        try {
+            String query = "SELECT courseid, coursename, coursedep, courseprofessor, firstday, secondday, maximumcapacity, availablecapacity, tedadvahed FROM courses WHERE coursedep=?";
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setString(1, dep);
+            ResultSet resultSet = pstmt.executeQuery();
+            String data[] = new String[10];
             ArrayList<Course> courses = new ArrayList<>();
             while (resultSet.next()) {
 
-                for (int i = 1; i <= 3; i++) {
-                    data[i] = resultSet.getString(i);
+                for (int i = 1; i <= 9; i++) {
+                    data[i] = resultSet.getString(i).trim();
                 }
                 Department department = new Department();
                 department.name = data[3];
+
                 Course course = new Course(data[1], data[2], department);
+                course.teacher = data[4];
+                course.firstPresentDate = data[5];
+                course.secondPresentDate = data[6];
+                course.capacity = Integer.parseInt(data[7]);
+                course.reservedCnt = Integer.parseInt(data[8]);
+                course.tedadVahed = Integer.parseInt(data[9]);
+
                 courses.add(course);
             }
             return courses;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Course retrieveCourse(String courseID, Connection connection) {
+        try {
+            String query = "SELECT courseid, coursename, coursedep, courseprofessor, firstday, secondday, maximumcapacity, availablecapacity, tedadvahed FROM courses WHERE courseid=?";
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setString(1, courseID);
+            ResultSet resultSet = pstmt.executeQuery();
+            String data[] = new String[10];
+            Course course = new Course();
+            ArrayList<Course> courses = new ArrayList<>();
+
+            while (resultSet.next()) {
+                for (int i = 1; i <= 9; i++) {
+                    data[i] = resultSet.getString(i).trim();
+                }
+                course.id = data[1];
+                course.name = data[2];
+
+                Department department = new Department();
+                department.name = data[3];
+                course.department = department;
+
+                course.teacher = data[4];
+                course.firstPresentDate = data[5];
+                course.secondPresentDate = data[6];
+                course.capacity = Integer.parseInt(data[7]);
+                course.reservedCnt = Integer.parseInt(data[8]);
+                course.tedadVahed = Integer.parseInt(data[9]);
+
+                courses.add(course);
+
+            }
+            return courses.get(0);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return null;
