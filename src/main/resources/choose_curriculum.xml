@@ -54,7 +54,10 @@
 
 
 
-    <button background="#7c9473" textcolor="#cdd0cb" margin_top="200" progressBarRadius="11" progressBarColor="white"
+    <button background="#7c9473" textcolor="#cdd0cb" margin_top="100" progressBarRadius="11" progressBarColor="white"
             borderCornerRadius="10" onClick="update/courses_chosen" margin_left="50" margin_right="50" textsize="14">ثبت دروس</button>
+
+    <button background="#7c9473" textcolor="#cdd0cb"  progressBarRadius="11" progressBarColor="white"
+            borderCornerRadius="10" onClick="command/see_curriculum" margin_left="50" margin_right="50" textsize="14">مشاهده دروس ثبت شده</button>
 
 </page>

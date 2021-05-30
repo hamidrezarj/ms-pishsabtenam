@@ -10,6 +10,7 @@ import ir.sample.app.PishSabteNam.models.*;
 import ir.sample.app.PishSabteNam.views.*;
 import org.json.simple.JSONObject;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,7 +28,7 @@ public class PishSabteNamService extends APSService {
     boolean allowmake = true;
 
     ArrayList<Course> courseTakeAttempt = new ArrayList<>();
-
+    ArrayList<Course> courseDeleteAttempt = new ArrayList<>();
 
     public PishSabteNamService(String channelName) {
         super(channelName);
@@ -65,16 +66,14 @@ public class PishSabteNamService extends APSService {
             return view;
         } else if (command.equals("add_course")) {
             return new ChooseDepartment();
-        }
-        else if(command.equals("choose_dep")){
+        } else if (command.equals("choose_dep")) {
             view = new ChooseDepartment();
             DepartmentList departmentList = new DepartmentList();
             departmentList.departments = DbOperation.retrieveDepList(connection);
 
             view.setMustacheModel(departmentList);
             return view;
-        }
-        else {
+        } else {
             System.out.println("Student ID: " + userId);
             Student student = DbOperation.retrieveStudent(userId, connection);
             // Register Student for first time into DB
@@ -168,6 +167,7 @@ public class PishSabteNamService extends APSService {
             }
 
         } else if (updateCommand.equals("courses_chosen")) {
+            System.out.println(Arrays.toString(courseTakeAttempt.toArray()));
 
             // first make courseAttempt array
             for (Object obj : pageData.keySet()) {
@@ -185,6 +185,14 @@ public class PishSabteNamService extends APSService {
             }
             boolean errorExists = false;
 
+            // check if no courses have been chosen
+            if (courseTakeAttempt.isEmpty()) {
+                errorExists = true;
+                String error = "هیچ درسی انتخاب نشده است.";
+                update.addChildUpdate("max_tedadvahed_error", "text", error);
+                return update;
+            }
+
             // if student's maximum tedadvahed reached do sth
             Student currentStudent = DbOperation.retrieveStudent(userId, connection);
             if (Integer.parseInt(currentStudent.tedadVahed) + Student.calcTedadVahed(courseTakeAttempt)
@@ -195,8 +203,6 @@ public class PishSabteNamService extends APSService {
 
                 errorExists = true;
             } else {
-
-                // if already has some courses in db... do sth
 
                 // if courses have time conflicts
                 ArrayList<Course> deletedCourses = new ArrayList<>();
@@ -223,6 +229,44 @@ public class PishSabteNamService extends APSService {
                     }
                 }
 
+
+                ArrayList<Course> takenCourses = DbOperation.retrieveTakenCourses(userId, connection);
+                if (!takenCourses.isEmpty()) {
+                    for (Course c1 : takenCourses) {
+                        for (Course c2 : courseTakeAttempt) {
+
+                            if (c1.equals(c2)) {
+                                String errorValue = String.format("شما درس %s را قبلا برداشته اید.", c1);
+                                update.addChildUpdate("same_courses_error", "text", errorValue);
+                                errorExists = true;
+
+                                if (!deletedCourses.contains(c2)) {
+                                    deletedCourses.add(c2);
+                                }
+
+                                continue;
+                            }
+
+                            if (Course.checkTimeConflicts(c1, c2, "_")) {
+                                // Render error
+                                String errorValue = String.format("دروس %s و %s با هم تداخل دارند.", c1, c2);
+                                update.addChildUpdate("conflict_error", "text", errorValue);
+
+                                // remove from takenlist
+
+//                                deletedCourses.add(c1);
+                                if (!deletedCourses.contains(c2)) {
+                                    deletedCourses.add(c2);
+                                }
+
+                                errorExists = true;
+                            }
+
+                        }
+                    }
+                }
+
+
                 for (Iterator<Course> iterator = courseTakeAttempt.iterator(); iterator.hasNext(); ) {
                     Course c = iterator.next();
                     if (deletedCourses.contains(c)) {
@@ -233,7 +277,7 @@ public class PishSabteNamService extends APSService {
 
                 // else successfully take courses and register to db.
                 if (!courseTakeAttempt.isEmpty()) {
-                    ArrayList<Course> takenCourses = DbOperation.retrieveTakenCourses(userId, connection);
+
                     ArrayList<Course> registerCourses = Course.listDifference(courseTakeAttempt, takenCourses);
 
                     if (!registerCourses.isEmpty()) {
@@ -251,6 +295,9 @@ public class PishSabteNamService extends APSService {
                             DbOperation.updateCourseByReservedCnt(course.id, Integer.parseInt(course.reservedCnt), connection);
                         }
                     }
+
+                    // empty TakeAttemptList
+                    courseTakeAttempt.clear();
                 }
             }
 
@@ -268,6 +315,75 @@ public class PishSabteNamService extends APSService {
                 view.setMustacheModel(courseList);
                 return view;
             }
+
+
+        } else if (updateCommand.equals("delete_courses")) {
+
+            // first make courseAttempt array
+            for (Object obj : pageData.keySet()) {
+                String arg = (String) obj;
+                if (arg.length() == 10 && arg.contains("_") && pageData.get(arg).equals("true")) {
+                    String courseID = arg;
+                    Course selectedCourse = DbOperation.retrieveCourse(Course.convToEngNum(courseID), connection);
+                    System.out.println(selectedCourse);
+
+                    if (!courseDeleteAttempt.contains(selectedCourse)) {
+                        courseDeleteAttempt.add(selectedCourse);
+                    }
+
+                }
+            }
+            boolean errorExists = false;
+
+            // check if no courses have been chosen
+            if (courseDeleteAttempt.isEmpty()) {
+                errorExists = true;
+                String error = "هیچ درسی برای حذف انتخاب نشده است.";
+                update.addChildUpdate("nothing_selected_error", "text", error);
+                return update;
+            }
+
+
+//                ArrayList<Course> registerCourses = Course.listDifference(courseDeleteAttempt, takenCourses);
+
+//                if (!registerCourses.isEmpty()) {
+            System.out.println(Arrays.toString(courseDeleteAttempt.toArray()));
+//                DbOperation.registerSelectedCourses(userId, registerCourses, connection);
+            DbOperation.deleteSelectedCourses(userId, courseDeleteAttempt, connection);
+
+            // update student's tedad vahed
+            Student currentStudent = DbOperation.retrieveStudent(userId, connection);
+            int tedadVahed = Integer.parseInt(currentStudent.tedadVahed) - Student.calcTedadVahed(courseDeleteAttempt);
+            currentStudent.tedadVahed = Integer.toString(tedadVahed);
+            DbOperation.updateStudentByTedadVahed(userId, tedadVahed, connection);
+
+            // update course's reservedCnt
+            for (Course course : courseDeleteAttempt) {
+                course.reservedCnt = Integer.toString(Integer.parseInt(course.reservedCnt) - 1);
+                DbOperation.updateCourseByReservedCnt(course.id, Integer.parseInt(course.reservedCnt), connection);
+            }
+
+            // empty TakeAttemptList
+            courseDeleteAttempt.clear();
+
+
+//                }
+//                if (errorExists) {
+//                    return update;
+//                } else {
+
+            // No errors exist. render same view with updated data.
+            view = new SeeCurriculumView();
+            CourseList courseList = new CourseList();
+
+            // call repFormat whenever you want to represent courses in xml
+            courseList.courses = DbOperation.retrieveTakenCourses(userId, connection);
+            Course.convToRepUtility(courseList.courses);
+            System.out.println(courseList.courses);
+
+            view.setMustacheModel(courseList);
+            return view;
+//                }
 
 
         } else if (updateCommand.startsWith("takecourse")) {
@@ -288,250 +404,6 @@ public class PishSabteNamService extends APSService {
 
             return new HomeView();
         }
-//        if (updateCommand.startsWith("doeditpelak")) {
-//            selectedid = updateCommand.substring(updateCommand.indexOf("+") + 1);
-//            System.out.println(selectedid);
-//            EditCar view = new EditCar();
-//            pelak = DbOperation.retrievePelak(selectedid, connection);
-//            view.setMustacheModel(pelak);
-//            selectedtype = pelak.type;
-//            selectedharf = pelak.harf;
-//            return view;
-//        } else if (updateCommand.startsWith("opendeleteask")) {
-//            selectedid = updateCommand.substring(updateCommand.indexOf("+") + 1);
-//            return new Dialog3();
-//        } else if (updateCommand.equals("sabtecarcheck")) {
-//            String alert = "";
-//            String first = pageData.get("first").toString();
-//            if (first.length() != 2) {
-//                alert += "\r\nبخش اول پلاک را به صورت عدد دو رقمی وارد کنید";
-//                allowmake = false;
-//                update.addChildUpdate("first", "text", "");
-//            }
-//            String second = pageData.get("second").toString();
-//            if (second.length() != 3) {
-//                alert += "\r\nبخش دوم پلاک را به صورت عدد سه رقمی وارد کنید";
-//                allowmake = false;
-//                update.addChildUpdate("second", "text", "");
-//            }
-//            String third = pageData.get("third").toString();
-//            if (third.length() != 2) {
-//                alert += "\r\nبخش سوم پلاک را به صورت عدد دو رقمی وارد کنید";
-//                allowmake = false;
-//                update.addChildUpdate("third", "text", "");
-//            }
-//            String type = selectedtype;
-//            if (type.length() == 0) {
-//                alert += "\r\nحرف مربوط به پلاک را انتخاب کنید";
-//                allowmake = false;
-//            }
-//            String harf = selectedharf;
-//            if (harf.length() == 0) {
-//                alert += "\r\nنوع ماشین خود را وارد کنید";
-//                allowmake = false;
-//            }
-//            update.addChildUpdate("alert", "text", alert);
-//            if (allowmake) {
-//                Pelak pelak = new Pelak();
-//                pelak.first = pageData.get("first").toString();
-//                pelak.second = pageData.get("second").toString();
-//                pelak.third = pageData.get("third").toString();
-//                pelak.name = pageData.get("name").toString();
-//                pelak.type = selectedtype;
-//                pelak.harf = selectedharf;
-//                pelak.bedehi = 0;
-//                DbOperation.registerPelak(pelak, userId, connection);
-//                owner.id = userId;
-//                owner.pelaks = DbOperation.retrievePelaks(userId, connection);
-//                TarheTraffic view = new TarheTraffic();
-//                view.setMustacheModel(owner);
-//                allowmake = true;
-//                return view;
-//            } else {
-//                allowmake = true;
-//                return update;
-//            }
-//        } else if (updateCommand.equals("opentype")) {
-//            return new Dialog1();
-//        } else if (updateCommand.equals("openharf")) {
-//            return new Dialog2();
-//        } else if (updateCommand.equals("sabtecarcheckedit")) {
-//            String alert = "";
-//            String first = pageData.get("first").toString();
-//            if (first.length() != 2) {
-//                alert += "\r\nبخش اول پلاک را به صورت عدد دو رقمی وارد کنید";
-//                allowmake = false;
-//                update.addChildUpdate("first", "text", "");
-//            }
-//            String second = pageData.get("second").toString();
-//            if (second.length() != 3) {
-//                alert += "\r\nبخش دوم پلاک را به صورت عدد سه رقمی وارد کنید";
-//                allowmake = false;
-//                update.addChildUpdate("second", "text", "");
-//            }
-//            String third = pageData.get("third").toString();
-//            if (third.length() != 2) {
-//                alert += "\r\nبخش سوم پلاک را به صورت عدد دو رقمی وارد کنید";
-//                allowmake = false;
-//                update.addChildUpdate("third", "text", "");
-//            }
-//            String type = selectedtype;
-//            if (type.length() == 0) {
-//                alert += "\r\nحرف مربوط به پلاک را انتخاب کنید";
-//                allowmake = false;
-//            }
-//            String harf = selectedharf;
-//            if (harf.length() == 0) {
-//                alert += "\r\nنوع ماشین خود را وارد کنید";
-//                allowmake = false;
-//            }
-//            update.addChildUpdate("alert", "text", alert);
-//            if (allowmake) {
-//                Pelak pelak = new Pelak();
-//                pelak.first = pageData.get("first").toString();
-//                pelak.second = pageData.get("second").toString();
-//                pelak.third = pageData.get("third").toString();
-//                pelak.name = pageData.get("name").toString();
-//                pelak.type = selectedtype;
-//                pelak.harf = selectedharf;
-//                pelak.id = selectedid;
-//                DbOperation.editpelak(pelak, connection);
-//                owner.id = userId;
-//                owner.pelaks = DbOperation.retrievePelaks(userId, connection);
-//                TarheTraffic view = new TarheTraffic();
-//                view.setMustacheModel(owner);
-//                allowmake = true;
-//                return view;
-//            } else {
-//                allowmake = true;
-//                return update;
-//            }
-//        } else if (updateCommand.equals("الف")) {
-//            selectedharf = "الف";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("ب")) {
-//            selectedharf = "ب";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("پ")) {
-//            selectedharf = "پ";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("ت")) {
-//            selectedharf = "ت";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("ث")) {
-//            selectedharf = "ث";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("ج")) {
-//            selectedharf = "ج";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("چ")) {
-//            selectedharf = "چ";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("ح")) {
-//            selectedharf = "ح";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("خ")) {
-//            selectedharf = "خ";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("د")) {
-//            selectedharf = "د";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("ذ")) {
-//            selectedharf = "ذ";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("ر")) {
-//            selectedharf = "ر";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("ز")) {
-//            selectedharf = "ز";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("ژ")) {
-//            selectedharf = "ژ";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("س")) {
-//            selectedharf = "س";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("ش")) {
-//            selectedharf = "ش";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("ص")) {
-//            selectedharf = "ص";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("ض")) {
-//            selectedharf = "ض";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("ط")) {
-//            selectedharf = "ط";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("ظ")) {
-//            selectedharf = "ظ";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("ع")) {
-//            selectedharf = "ع";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("غ")) {
-//            selectedharf = "غ";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("ف")) {
-//            selectedharf = "ف";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("ق")) {
-//            selectedharf = "ق";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("ک")) {
-//            selectedharf = "ک";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("گ")) {
-//            selectedharf = "گ";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("ل")) {
-//            selectedharf = "ل";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("م")) {
-//            selectedharf = "م";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("ن")) {
-//            selectedharf = "ن";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("و")) {
-//            selectedharf = "و";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("ه")) {
-//            selectedharf = "ه";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("ی")) {
-//            selectedharf = "ی";
-//            update.addChildUpdate("harfhere", "text", selectedharf);
-//        } else if (updateCommand.equals("سواری")) {
-//            selectedtype = "سواری";
-//            update.addChildUpdate("typehere", "text", selectedtype);
-//        } else if (updateCommand.equals("وانت و مینی بوس")) {
-//            selectedtype = "وانت و مینی بوس";
-//            update.addChildUpdate("typehere", "text", selectedtype);
-//        } else if (updateCommand.equals("کامیونت")) {
-//            selectedtype = "کامیونت";
-//            update.addChildUpdate("typehere", "text", selectedtype);
-//        } else if (updateCommand.equals("اتوبوس و کامیون دو محور")) {
-//            selectedtype = "اتوبوس و کامیون دو محور";
-//            update.addChildUpdate("typehere", "text", selectedtype);
-//        } else if (updateCommand.equals("کامیون سه محور")) {
-//            selectedtype = "کامیون سه محور";
-//            update.addChildUpdate("typehere", "text", selectedtype);
-//        } else if (updateCommand.equals("تریلی")) {
-//            selectedtype = "تریلی";
-//            update.addChildUpdate("typehere", "text", selectedtype);
-//        } else if (updateCommand.equals("تانکر و نفت کش")) {
-//            selectedtype = "تانکر و نفت کش";
-//            update.addChildUpdate("typehere", "text", selectedtype);
-//        } else if (updateCommand.equals("سواری عمومی")) {
-//            selectedtype = "سواری عمومی";
-//            update.addChildUpdate("typehere", "text", selectedtype);
-//        } else if (updateCommand.equals("سواری بومی")) {
-//            selectedtype = "سواری بومی";
-//            update.addChildUpdate("typehere", "text", selectedtype);
-//        }
-//        return update;
-//        HomeView homeView = new HomeView();
-//        return homeView;
+
     }
 }

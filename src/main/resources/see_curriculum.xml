@@ -1,4 +1,4 @@
-<page height="match_parent" background="#cdd0cb" title="برنامه درسی">
+<page height="match_parent" background="#cdd0cb" title="ویرایش برنامه درسی">
 
 
     <frame height="50" margin_top="40" layout="linear_vertical" background="#cdd0cb" margin_left="-1" margin_right="-1">
@@ -20,7 +20,7 @@
         <text text="واحد" gravity="center" textcolor="#fff"></text>
         <text text="نام درس" gravity="center" textcolor="#fff"></text>
         <text text="شماره و گروه درس" gravity="center" textcolor="#fff"></text>
-<!--        <text text="#" gravity="center" textcolor="#fff"></text>-->
+        <text text="#" gravity="center" textcolor="#fff"></text>
     </frame>
 
 
@@ -38,7 +38,7 @@
                 <text text="{{name}}" gravity="center" textcolor="#7c9473"/>
                 <text text="{{id}}" gravity="center" textcolor="#7c9473"/>
 
-<!--                <checkbox id="{{id}}"  gravity="center"/>-->
+                <checkbox id="{{id}}"  gravity="center"/>
 
             </frame>
             <divider margin_top="3" color="#7c9473" size="1"/>
@@ -48,13 +48,16 @@
     </frame>
 
     <!--   Render Errors here -->
-    <text id="conflict_error" textcolor="#a83a32" textalignment="center"></text>
-    <text id="max_tedadvahed_error" textcolor="#a83a32" textalignment="center"></text>
-    <text id="same_courses_error" textcolor="#a83a32" textalignment="center"></text>
+    <text id="nothing_selected_error" textcolor="#a83a32" textalignment="center"></text>
+<!--    <text id="max_tedadvahed_error" textcolor="#a83a32" textalignment="center"></text>-->
+<!--    <text id="same_courses_error" textcolor="#a83a32" textalignment="center"></text>-->
 
 
 
-    <button background="#7c9473" textcolor="#cdd0cb" margin_top="200" progressBarRadius="11" progressBarColor="white"
+    <button background="#7c9473" textcolor="#cdd0cb" margin_top="50" progressBarRadius="11" progressBarColor="white"
             borderCornerRadius="10" onClick="command/choose_dep" margin_left="50" margin_right="50" textsize="14">افزودن درس جدید</button>
+
+    <button background="#7c9473" textcolor="#cdd0cb"  progressBarRadius="11" progressBarColor="white"
+            borderCornerRadius="10" onClick="update/delete_courses" margin_left="50" margin_right="50" textsize="14">حذف دروس انتخاب شده</button>
 
 </page>

@@ -59,7 +59,7 @@ public class DbOperation {
         }
     }
 
-    public static void updateStudentByTedadVahed(String user_id, int studentTedadVahed, Connection connection){
+    public static void updateStudentByTedadVahed(String user_id, int studentTedadVahed, Connection connection) {
         try {
             String query = "UPDATE student set takencoursesnumber=? WHERE shomaredaneshjooyi=?";
             PreparedStatement pstmt = connection.prepareStatement(query);
@@ -118,10 +118,24 @@ public class DbOperation {
             throwables.printStackTrace();
         }
 
-
     }
 
-    public static void updateCourseByReservedCnt(String courseID, int reservedCnt, Connection connection){
+    public static void deleteSelectedCourses(String user_id, ArrayList<Course> courses, Connection connection) {
+        try {
+            String query = "DELETE FROM takencourses WHERE shomaredaneshjooyi=? AND courseid=?";
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setString(1, user_id);
+            for (Course course : courses) {
+                pstmt.setString(2, course.id);
+                pstmt.executeUpdate();
+            }
+            pstmt.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public static void updateCourseByReservedCnt(String courseID, int reservedCnt, Connection connection) {
         try {
             String query = "UPDATE courses set availablecapacity=? WHERE courseid=?";
             PreparedStatement pstmt = connection.prepareStatement(query);
